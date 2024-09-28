@@ -1,4 +1,5 @@
 class Api::V1::TransactionsController < Api::V1::ApplicationController
+    include Api::V1::CurrencyHelper
   
     before_action :set_transaction, only: %i[ show ]
 
@@ -18,7 +19,7 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
 
     # POST /transactions
     # Para esta transacción como se puede ver no hay seguridad en caso de que falle por alguna razon y el user pueda perder el dinero
-    # no se modelo porque por el alcance de la app no se consideró esencial 
+    # no se modelo porque por el alcance de la app no se consideró escencial 
     def create
         permitted_params = transaction_params
         currency_from = Api::V1::Currency.find_by(name: permitted_params[:currency_from])
@@ -27,7 +28,7 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
 
         user_currency_account = @current_user.currency_accounts.find_by(currency_id: currency_from.id) if currency_from
         if user_currency_account && user_currency_account.has_enough_money?(amount_from)
-            amount_to = Api::V1::Currency.calculate_value(currency_from, currency_to, permitted_params[:amount_from])
+            amount_to = Api::V1::Currency.calculate_value(currency_from, currency_to, amount_from) 
             @transaction = Api::V1::Transaction.new(currency_from: currency_from, currency_to: currency_to, amount_from: amount_from, amount_to: amount_to, user_id: @current_user.id)
             if user_currency_account.save_balances(amount_from, amount_to, currency_to) && @transaction.save
                 render json: format_transaction(@transaction), status: :created
@@ -46,12 +47,14 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
 
     # Lo idea no seria formatear la transacción aca, seria usando una gema como jbuilder o un serialize pero viendo el alcance de la app se opto por esto
     def format_transaction(transaction)
+        amount_from = format_value(transaction.amount_from, transaction.currency_from)
+        amount_to = format_value(transaction.amount_to, transaction.currency_to)
         {
           id: transaction.id,
           currency_from: transaction.currency_from.name,
           currency_to: transaction.currency_to.name,
-          amount_from: transaction.amount_from,
-          amount_to: transaction.amount_to,
+          amount_from: amount_from,
+          amount_to: amount_to
         }
     end
 

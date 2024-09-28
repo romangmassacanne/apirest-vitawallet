@@ -17,6 +17,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_012844) do
   create_table "currencies", force: :cascade do |t|
     t.string "name", null: false
     t.string "api_reference"
+    t.integer "precision", null: false
   end
 
   create_table "currency_accounts", force: :cascade do |t|
