@@ -25,6 +25,9 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
         currency_from = Api::V1::Currency.find_by(name: permitted_params[:currency_from])
         currency_to = Api::V1::Currency.find_by(name: permitted_params[:currency_to])
         amount_from = permitted_params[:amount_from]
+        unless amount_from.is_a?(Float)
+            amount_from = amount_from.to_f
+        end
 
         user_currency_account = @current_user.currency_accounts.find_by(currency_id: currency_from.id) if currency_from
         if user_currency_account && user_currency_account.has_enough_money?(amount_from)
