@@ -37,6 +37,14 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
     error code: 401, desc: 'No autorizado'
     error code: 422, desc: 'Error de validación'
     error code: 404, desc: 'Saldo insuficiente o recurso no encontrado'
+    example '
+    {
+        "transaction": {
+            "currency_from": "USD",
+            "currency_to": "BTC",
+            "amount_from": 100
+        }
+    }'
     # POST /transactions
     # Para esta transacción como se puede ver no hay seguridad en caso de que falle por alguna razon y el user pueda perder el dinero
     # no se modelo porque por el alcance de la app no se consideró escencial 

@@ -27,6 +27,15 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   param :email, String, desc: 'Correo electrónico del usuario', required: true
   param :password, String, desc: 'Contraseña del usuario', required: true
   error code: 422, desc: 'Error de validación'
+  example '
+    {
+      "user": {
+        "username": "string",
+        "email": "string",
+        "password": "string"
+      }
+    }
+  '
   # Se crea por default con una cuenta en dolares, a modo de ejemplo se le coloca 10000 usd para empezar
   def create
     @user = Api::V1::User.new(user_params)
