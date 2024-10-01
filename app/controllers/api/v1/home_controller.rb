@@ -1,6 +1,10 @@
 class Api::V1::HomeController < Api::V1::ApplicationController
 
-    
+    api :GET, '/v1', 'Obtener el precio actual del Bitcoin en USD'
+    description 'Devuelve el precio actual del Bitcoin en dólares estadounidenses (USD). Se requiere autenticación mediante un token JWT en el header.'
+    header 'Authorization', 'Bearer token JWT', required: true
+    error code: 401, desc: 'No autorizado'
+    error code: 500, desc: 'Error interno del servidor'
     def index
         bitcoin_price = Api::V1::CurrencyPriceService.bitcoin_price
         if bitcoin_price["value"]

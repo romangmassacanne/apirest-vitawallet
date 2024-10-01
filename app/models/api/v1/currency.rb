@@ -3,7 +3,7 @@ class Api::V1::Currency < ApplicationRecord
     has_many :currency_accounts
     has_many :transactions
 
-    validates :name, presence: true
+    validates :name, :precision, presence: true
 
     attr_accessor :value
 

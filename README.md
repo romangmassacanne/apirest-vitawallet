@@ -35,8 +35,9 @@ Te entrega un token similar a este:
 token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MjgwMTEwOTZ9.87jpvZPIfOvec7VuezpAZnL5hObnD4-i7ZU071Z1uLc .
 
 
-Consultar la documentación a continuación para obtener una explicación detallada de los endpoints disponibles en la API.
-Almacenada en el proyecto con el nombre de "swagger.yaml" en la carpeta config y pegarla en el SwaggerEditor que es donde fue armada(https://editor-next.swagger.io/)
+Para ver la documentación es necesario ingresar al link:
+
+- `http://localhost:3000/apidocs`.
 
 Para realizar correr los test es necesario cambiar de ambiente para no realizar las pruebas sobre el ambiente de desarrollo:
 

@@ -3,7 +3,12 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
   
     before_action :set_transaction, only: %i[ show ]
 
-    # este index es para un user en especifo, el logueado
+  
+    api :GET, '/v1/transactions', 'Obtener todas las transacciones del usuario logueado'
+    description 'Devuelve una lista de todas las transacciones realizadas por el usuario logueado. Se requiere autenticación mediante un token JWT en el header.'
+    header 'Authorization', 'Bearer token JWT', required: true
+    error code: 401, desc: 'No autorizado'
+    error code: 500, desc: 'Error interno del servidor'
     def index
         formatted_transactions = @current_user.transactions.map do |transaction|
             format_transaction(transaction)
@@ -12,11 +17,26 @@ class Api::V1::TransactionsController < Api::V1::ApplicationController
     end 
 
 
-    # GET /transactions/1
+    api :GET, '/v1/transactions/:id', 'Obtener una transacción por ID'
+    description 'Devuelve los detalles de una transacción específica por su ID. Se requiere autenticación mediante un token JWT en el header.'
+    header 'Authorization', 'Bearer token JWT', required: true
+    param :id, :number, desc: 'El ID de la transacción', required: true
+    error code: 401, desc: 'No autorizado'
+    error code: 404, desc: 'Transacción no encontrada'
     def show
         render json: format_transaction(@transaction)
     end
 
+
+    api :POST, '/v1/transactions', 'Crear una nueva transacción'
+    description 'Crea una nueva transacción. Se requiere autenticación mediante un token JWT en el header.'
+    header 'Authorization', 'Bearer token JWT', required: true
+    param :currency_from, String, desc: 'La moneda de origen (ej: USD)', required: true
+    param :currency_to, String, desc: 'La moneda de destino (ej: BTC)', required: true
+    param :amount_from, Float, desc: 'El monto de la moneda de origen a convertir', required: true
+    error code: 401, desc: 'No autorizado'
+    error code: 422, desc: 'Error de validación'
+    error code: 404, desc: 'Saldo insuficiente o recurso no encontrado'
     # POST /transactions
     # Para esta transacción como se puede ver no hay seguridad en caso de que falle por alguna razon y el user pueda perder el dinero
     # no se modelo porque por el alcance de la app no se consideró escencial 
