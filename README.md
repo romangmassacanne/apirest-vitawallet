@@ -6,29 +6,49 @@ Instructivo para comenzar a utilizar la API REST
 Instalar las dependencias:
 - `bundle install`
 
+Crear la base:
+- `rails db:create`
+
 Correr las migraciones: 
 Ejecuta el siguiente comando para migrar la base de datos: 
--rake db:migrate
+- `rake db:migrate`
 
 Correr el seed: 
 Utilizar el comando a continuación para sembrar la base de datos con datos iniciales, incluyendo la configuración del tipo de moneda USD, que servirá como la moneda base para el sistema y la BTC para interactuar: 
 - `rails db:seed`
+
 Esto asegurará que tengamos una moneda base configurada para comenzar a trabajar.
 
 Iniciar el servicio: Para poner en marcha nuestra API, ejecuta el siguiente comando: 
-- `rails s`
+- `rails s`.
 
-Es necesario iniciar sesión para poder obtener el token y de esta manera colocarlo en el header para poder realizar las peticiones:
+Corre en: http://127.0.0.1:3000/api/v1 .
+
+Es necesario iniciar sesión para poder obtener el token y de esta manera colocarlo en el header para poder realizar las peticiones.
+Esto en la ruta: "http://127.0.0.1:3000/api/v1/auth/login"
+
+
 email: `admin@gmail.com`
 password: `admin`
-y te entrega un token similar a este:
-token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MjgwMTEwOTZ9.87jpvZPIfOvec7VuezpAZnL5hObnD4-i7ZU071Z1uLc
+
+Te entrega un token similar a este:
+token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MjgwMTEwOTZ9.87jpvZPIfOvec7VuezpAZnL5hObnD4-i7ZU071Z1uLc .
+
 
 Consultar la documentación a continuación para obtener una explicación detallada de los endpoints disponibles en la API.
 Almacenada en el proyecto con el nombre de "swagger.yaml" en la carpeta config y pegarla en el SwaggerEditor que es donde fue armada(https://editor-next.swagger.io/)
 
-Para realizar correr los test correr el comando:
-- `rspec`
+Para realizar correr los test es necesario cambiar de ambiente para no realizar las pruebas sobre el ambiente de desarrollo:
+
+- `bin/rails db:environment:set RAILS_ENV=test`.
+
+Y luego corremos los tests:
+
+- `rspec`.
+
+Despues para volver a correr en el ambiente de desarrollo colocamos el comando:
+
+- `bin/rails db:environment:set RAILS_ENV=development`
 
 Aclaraciones Generales:
 Comentarios en el código: Puedes encontrar comentarios en el código que explican situaciones específicas debido al alcance de la API.
