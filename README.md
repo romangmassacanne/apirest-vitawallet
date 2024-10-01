@@ -11,7 +11,7 @@ Crear la base:
 
 Correr las migraciones: 
 Ejecuta el siguiente comando para migrar la base de datos: 
-- `rake db:migrate`
+- `rails db:migrate`
 
 Correr el seed: 
 Utilizar el comando a continuación para sembrar la base de datos con datos iniciales, incluyendo la configuración del tipo de moneda USD, que servirá como la moneda base para el sistema y la BTC para interactuar: 
